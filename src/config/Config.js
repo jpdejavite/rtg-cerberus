@@ -1,6 +1,7 @@
 let data = null;
 
 const ConfigKeys = {
+  ENABLE_PLAYGROUND: 'enablePlayground',
   PRIVATE_KEY: 'privateKey',
   SERVICE_LIST: 'serviceList',
 };

@@ -36,6 +36,7 @@ const buildGraphqlServer = (db) => {
   });
 
   const GraphqlServer = new ApolloServer({
+    playground: Config.get(ConfigKeys.ENABLE_PLAYGROUND),
     gateway,
     context: async (context) => {
       const { req } = context;
