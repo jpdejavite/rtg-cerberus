@@ -1,0 +1,25 @@
+{
+  "name": "rtg-cerberus",
+  "version": "0.1.0",
+  "main": "src/app.js",
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "start-dev": "node -r dotenv/config.js src/app.js dotenv_config_path=dev.env"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2"
+  },
+  "dependencies": {
+    "@apollo/federation": "latest",
+    "@apollo/gateway": "latest",
+    "apollo-server": "latest",
+    "firebase-admin": "^8.10.0",
+    "graphql": "latest",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
