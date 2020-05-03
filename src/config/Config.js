@@ -15,6 +15,11 @@ class Config {
   }
 
   static get(key) {
+    if (process.env[key]) {
+      console.log(`config ${key} overrided by env var`);
+      return process.env[key];
+    }
+
     if (!data) {
       data = {};
     }

@@ -21,9 +21,9 @@ class Database {
 
   async loadConfigs() {
     const db = this.dbs.config.firestore();
-    const configsDoc = await db.collection('configs').doc('gateway').get();
+    const configsDoc = await db.collection('configs').doc('cerberus').get();
     if (!configsDoc || !configsDoc.data()) {
-      throw new Error('flynn configs missing');
+      throw new Error('cerberus configs missing');
     }
     Config.loadAll(configsDoc.data());
 

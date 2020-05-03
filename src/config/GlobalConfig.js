@@ -14,16 +14,17 @@ class GlobalConfig {
     data[key] = value;
   }
 
-  static get(key, defaultValue) {
+  static get(key) {
+    if (process.env[key]) {
+      console.log(`config ${key} overrided by env var`);
+      return process.env[key];
+    }
+
     if (!data) {
       data = {};
     }
 
-    const val = data[key];
-    if (val === null || val === undefined) {
-      return defaultValue;
-    }
-    return val;
+    return data[key];
   }
 
   static loadAll(configs) {
