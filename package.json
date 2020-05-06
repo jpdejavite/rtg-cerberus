@@ -3,7 +3,8 @@
   "version": "0.1.1",
   "main": "src/app.js",
   "engines": {
-    "node": "12.x"
+    "node": "12.13.0",
+    "npm": "6.12.0"
   },
   "scripts": {
     "start-dev": "node -r dotenv/config.js src/app.js dotenv_config_path=dev.env",
