@@ -27,6 +27,7 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
 }
 
 const buildGraphqlServer = (db) => {
+  const services = {};
   const serviceList = Config.get(ConfigKeys.SERVICE_LIST);
   const gateway = new ApolloGateway({
     serviceList: JSON.parse(serviceList),
@@ -48,12 +49,16 @@ const buildGraphqlServer = (db) => {
             throw new ApolloError('Invalid jwt payload', 'invalid_jwt_payload');
           }
 
-          const configDb = db.getConfigDb().firestore();
-          const serviceDoc = await configDb.collection('services').doc(payload.iss).get();
-          if (!serviceDoc || !serviceDoc.data()) {
-            throw new ApolloError('Iss not recognized', 'iss_not_recognized');
+          let service = services[payload.iss];
+          if (!service) {
+            const configDb = db.getConfigDb().firestore();
+            const serviceDoc = await configDb.collection('services').doc(payload.iss).get();
+            if (!serviceDoc || !serviceDoc.data()) {
+              throw new ApolloError('Iss not recognized', 'iss_not_recognized');
+            }
+            service = serviceDoc.data();
+            services[payload.iss] = service;
           }
-          const service = serviceDoc.data();
           if (!service.secret || !service.roles) {
             throw new ApolloError('Iss invalid data', 'iss_invalid_data');
           }
