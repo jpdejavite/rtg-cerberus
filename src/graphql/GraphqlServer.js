@@ -17,6 +17,9 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
     if (context.authorizationPayload) {
       tokenPayload = context.authorizationPayload;
     }
+    if (context.appCoi) {
+      request.http.headers.set('app-coi', context.appCoi);
+    }
     try {
       const privateKey = Config.get(ConfigKeys.PRIVATE_KEY).replace(/\\n/gi, '\n');
       request.http.headers.set('gateway-token', jwt.sign(tokenPayload, privateKey, { algorithm: 'ES512' }));
@@ -42,6 +45,7 @@ const buildGraphqlServer = (db) => {
     context: async (context) => {
       const { req } = context;
       if (req && req.headers && req.headers.authorization) {
+        const { headers: { app_coi: appCoi } } = req;
         const authorization = req.headers.authorization.replace('Bearer ', '');
         if (authorization) {
           let payload = jwt.decode(authorization);
@@ -87,7 +91,7 @@ const buildGraphqlServer = (db) => {
             }
           }
           authorizationPayload.iss = Constant.APP_NAME;
-          return Object.assign(context, { authorizationPayload });
+          return Object.assign(context, { authorizationPayload, appCoi });
         }
       }
 
